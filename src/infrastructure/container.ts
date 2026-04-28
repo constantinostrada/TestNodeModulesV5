@@ -8,8 +8,10 @@
  * In production you would swap InMemoryPostRepository for a real DB adapter.
  */
 import { InMemoryPostRepository } from '@infrastructure/repositories/InMemoryPostRepository';
+import { InMemoryProductRepository } from '@infrastructure/repositories/InMemoryProductRepository';
 import { UuidGenerator } from '@infrastructure/id/UuidGenerator';
 
+import { ListInventoryUseCase } from '@application/use-cases/ListInventoryUseCase';
 import { CreatePostUseCase } from '@application/use-cases/CreatePostUseCase';
 import { GetPostUseCase } from '@application/use-cases/GetPostUseCase';
 import { ListPostsUseCase } from '@application/use-cases/ListPostsUseCase';
@@ -43,4 +45,12 @@ export function makePublishPostUseCase(): PublishPostUseCase {
 
 export function makeDeletePostUseCase(): DeletePostUseCase {
   return new DeletePostUseCase(postRepository);
+}
+
+// ─── Inventory / Products ─────────────────────────────────────────────────────
+
+const productRepository = new InMemoryProductRepository();
+
+export function makeListInventoryUseCase(): ListInventoryUseCase {
+  return new ListInventoryUseCase(productRepository);
 }
