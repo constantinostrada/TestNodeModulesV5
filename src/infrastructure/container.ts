@@ -5,9 +5,10 @@
  * This is the ONLY place in the codebase where concrete infrastructure
  * classes are instantiated and injected into use cases.
  *
- * In production you would swap InMemoryPostRepository for a real DB adapter.
+ * In production you would swap InMemory* repositories for real DB adapters.
  */
 import { InMemoryPostRepository } from '@infrastructure/repositories/InMemoryPostRepository';
+import { InMemoryProductRepository } from '@infrastructure/repositories/InMemoryProductRepository';
 import { UuidGenerator } from '@infrastructure/id/UuidGenerator';
 
 import { CreatePostUseCase } from '@application/use-cases/CreatePostUseCase';
@@ -15,6 +16,7 @@ import { GetPostUseCase } from '@application/use-cases/GetPostUseCase';
 import { ListPostsUseCase } from '@application/use-cases/ListPostsUseCase';
 import { PublishPostUseCase } from '@application/use-cases/PublishPostUseCase';
 import { DeletePostUseCase } from '@application/use-cases/DeletePostUseCase';
+import { CreateProductUseCase } from '@application/use-cases/CreateProductUseCase';
 
 // ── Shared infrastructure singletons ───────────────────────────────────────
 
@@ -43,4 +45,14 @@ export function makePublishPostUseCase(): PublishPostUseCase {
 
 export function makeDeletePostUseCase(): DeletePostUseCase {
   return new DeletePostUseCase(postRepository);
+}
+
+// ---------------------------------------------------------------------------
+// Product slice
+// ---------------------------------------------------------------------------
+
+const productRepository = new InMemoryProductRepository();
+
+export function makeCreateProductUseCase(): CreateProductUseCase {
+  return new CreateProductUseCase(productRepository, idGenerator);
 }
