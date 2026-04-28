@@ -16,6 +16,9 @@ import { ListPostsUseCase } from '@application/use-cases/ListPostsUseCase';
 import { PublishPostUseCase } from '@application/use-cases/PublishPostUseCase';
 import { DeletePostUseCase } from '@application/use-cases/DeletePostUseCase';
 
+import { InMemoryProductRepository } from '@infrastructure/repositories/InMemoryProductRepository';
+import { ListInventoryUseCase } from '@application/use-cases/ListInventoryUseCase';
+
 // ── Shared infrastructure singletons ───────────────────────────────────────
 
 const postRepository = new InMemoryPostRepository();
@@ -43,4 +46,12 @@ export function makePublishPostUseCase(): PublishPostUseCase {
 
 export function makeDeletePostUseCase(): DeletePostUseCase {
   return new DeletePostUseCase(postRepository);
+}
+
+// ── Inventory / Products ──────────────────────────────────────────────────────
+
+const productRepository = new InMemoryProductRepository();
+
+export function makeListInventoryUseCase(): ListInventoryUseCase {
+  return new ListInventoryUseCase(productRepository);
 }
